@@ -1,59 +1,102 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+```
+ _			  _	_  	  _   _                               _ 
+| |\  	    /| |\ \   / /| |                             | |
+| | \      / | | \ \ / / | |     __ _ _ __ __ ___   _____| |
+| |\ \    /	/| |   | |   | |    / _` | '__/ _` \ \ / / _ \ |
+| | \ \  / / | |   | |   | |___| (_| | | | (_| |\ V /  __/ |
+|_|  \ \/ /  |_|   |_|   |______\__,_|_|  \__,_| \_/ \___|_|
+                                           
+```
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+> 根据laravel框架基础，加装项目常用api。注意：项目交付后，删除此文档
 
-## About Laravel
+## 所用扩展
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+- `overtrue/easy-sms` 短信
+- `doctrine/dbal` 修改数据表字段的属性 <font style="color:red">注：因使用2.9.x版本，所有php版本应大于7.1</font>
+- `overtrue/laravel-lang` 语言包
+- `gregwar/captcha` 图片验证码
+- `jacobcyl/ali-oss-storage` 阿里云oss
+- `overtrue/laravel-socialite` 第三方登录
+- `tymon/jwt-aut` jwt
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
 
-## Learning Laravel
+## 起步
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+- 安装扩展
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+  ```shell
+  composer install
+  ```
 
-## Laravel Sponsors
+- 复制.env.example
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+  ```shell
+  cp .env.example .env
+  ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
+- 更新密钥
 
-## Contributing
+  ```shell
+  php artisan key:generate
+  ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- 更新Token 签名
 
-## Security Vulnerabilities
+  ```shell
+  php artisan jwt:secret
+  ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- 根据需求更改.env配置
 
-## License
+- 数据迁移
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+  ```shell
+  php artisan migrate --seed
+  ```
+
+
+
+## 变动
+
+- 中间件
+
+  - 默认 Accept 头返回 Json 格式
+
+- 验证器
+
+  - 重写了验证器默认返回格式 `app\Http\Requests\Api\FormRequest@failedValidation`
+  - 系统错误处理汉化 `app\Http\Exception\Handler`
+
+- artisan
+
+  - 输入用户 id，查询 id 对应的用户，然后为该用户生成一个有效期为 1 年的 `token`。
+
+    ```shell
+    php artisan generate-token
+    ```
+
+- .env
+
+  - ```shell
+    #开发环境 验证码:1234
+    APP_ENV=local
+    #正式环境
+    APP_ENV=production
+    ```
+
+    **注意**：清理缓存 `php artisan config:cache`
+
+    在路由中有 `短信验证码` 和 `图片+短信验证码` 两种。
+
+
+
+## 用户模块
+
+- 采用单设备登录(JWT设置过期时间为一年)
+- 采用阿里云短信、可配置阿里云oss
+- 节流限制
+- 微信第三方登录
+- 上传模块(本地/云端)，通过微信登录获取的头像采用本地上传
+

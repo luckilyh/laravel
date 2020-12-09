@@ -40,6 +40,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            \App\Http\Middleware\AcceptHeader::class,//默认 Accept 头返回 Json 格式
         ],
     ];
 
