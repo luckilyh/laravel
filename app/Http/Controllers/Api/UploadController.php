@@ -16,7 +16,7 @@ class UploadController extends Controller
         foreach ($request->file('files') as $k=>$v) {
             if ($v->isValid()) {
                 $path = Storage::disk('public')->putFile($request->type, $v);
-                $arr[] = 'files/'.$path;
+                $arr[] = '/files/'.$path;
             }else{
                 $error[] = $k;
             }
