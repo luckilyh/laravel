@@ -13,9 +13,9 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthorizationsController extends Controller
 {
-    public function login(){
-        return apiOutPut(401,$this->mStatus[401]);
-    }
+//    public function login(){
+//        return apiOutPut(401,'未登录或登录已失效');
+//    }
 
     public function socialStore($type, SocialAuthorizationRequest $request)
     {

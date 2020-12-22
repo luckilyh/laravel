@@ -16,11 +16,11 @@
         "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
         "jacobcyl/ali-oss-storage": "^2.1",
         "laravel/framework": "^7.29",
-        "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
         "overtrue/easy-sms": "^1.2",
         "overtrue/laravel-lang": "^4.2",
-        "overtrue/laravel-socialite": "~2.0"
+        "overtrue/laravel-socialite": "~2.0",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

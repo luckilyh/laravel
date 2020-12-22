@@ -18,7 +18,7 @@
 - `gregwar/captcha` 图片验证码
 - `jacobcyl/ali-oss-storage` 阿里云oss
 - `overtrue/laravel-socialite` 第三方登录
-- `laravel/sanctum` 轻量级 API 认证
+- `tymon/jwt-aut` jwt
 
 
 
