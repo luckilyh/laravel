@@ -18,13 +18,13 @@ class Controller extends BaseController
      * @param $attributes  属性别名
      * @return array(验证成功)|string(验证失败)
      */
-    protected function verify($request,$rules,$messages,$attributes){
+    protected function verify($request, $rules, $messages=[], $messages=[]){
         try {
             return $request->validate($rules,$messages,$attributes);
-        }catch (ValidationException $e){
+        }catch (\Exception $e){
             $error = $e->errors();
             return json_encode([
-                'code' => 500,
+                'code' => 404,
                 'msg' => reset($error)[0],
                 'data' => [],
             ]);
