@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
+    /**
+     * 轮播图
+     * @param type 类型 针对项目多轮播图使用,不传为查询所有
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function banner(Request $request){
         $map = [];
         if ($request->type){

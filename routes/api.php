@@ -21,6 +21,10 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     Route::get('banner', 'IndexController@banner')
         ->name('banner');
 
+    // 关于我们资料详情
+    Route::get('about', 'PersonalController@about')
+        ->name('about');
+
     //一分钟可以调用 10 次
     Route::middleware('throttle:' . config('api.rate_limits.sign'))
         ->group(function () {
