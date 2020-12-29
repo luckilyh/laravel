@@ -17,6 +17,9 @@ use Illuminate\Http\Request;
 Route::get('login', 'Api\AuthorizationsController@login')->name('login');
 
 Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
+    // 轮播图
+    Route::get('banner', 'IndexController@banner')
+        ->name('banner');
 
     //一分钟可以调用 10 次
     Route::middleware('throttle:' . config('api.rate_limits.sign'))

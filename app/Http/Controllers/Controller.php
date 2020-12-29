@@ -18,7 +18,7 @@ class Controller extends BaseController
      * @param $attributes  属性别名
      * @return array(验证成功)|string(验证失败)
      */
-    protected function verify($request, $rules, $messages=[], $messages=[]){
+    protected function verify($request, $rules, $messages=[], $attributes=[]){
         try {
             return $request->validate($rules,$messages,$attributes);
         }catch (\Exception $e){
