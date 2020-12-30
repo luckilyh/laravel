@@ -18,6 +18,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('login', 'Api\AuthorizationsController@login')->name('login');
 
 Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
+    // 轮播图
+    Route::get('banner', 'IndexController@banner')
+        ->name('banner');
+
+    // 关于我们资料列表
+    Route::get('about_list', 'PersonalController@aboutList')
+        ->name('about.list');
+    // 关于我们资料详情
+    Route::get('about_info', 'PersonalController@aboutInfo')
+        ->name('about.info');
+    // 杂项内容详情
+    Route::get('sundry', 'PersonalController@sundry')
+        ->name('sundry');
 
     //一分钟可以调用 10 次
     Route::middleware('throttle:' . config('api.rate_limits.sign'))
