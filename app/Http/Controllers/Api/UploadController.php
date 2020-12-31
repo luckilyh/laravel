@@ -27,7 +27,7 @@ class UploadController extends Controller
         ]);
     }
 
-    public function cloud(Request $request)
+    public function cloud(UploadRequest $request)
     {
         $file = $request->file('file');
 
