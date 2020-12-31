@@ -8,8 +8,7 @@ class UploadRequest extends FormRequest
     {
         return [
             'type' => 'required',
-            'files' => 'required|array',
-            'files.*' => 'file',
+            'file' => 'required|file',
         ];
     }
 
