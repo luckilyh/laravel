@@ -5,46 +5,43 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Api\UploadRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\URL;
 
 class UploadController extends Controller
 {
     public function local(UploadRequest $request)
     {
-        $arr = [];
-        $error = [];
-        foreach ($request->file('files') as $k=>$v) {
-            if ($v->isValid()) {
-                $path = Storage::disk('public')->putFile($request->type, $v);
-                $arr[] = '/files/'.$path;
-            }else{
-                $error[] = $k;
-            }
+        $file = $request->file('file');
+
+        if (!$file->isValid()){
+            return error('上传内容不是一个文件');
         }
 
-        return $this->success('上传成功', [
-            'urls' => $arr,
-            'errors' => $error,
+        try {
+            $path = Storage::disk('public')->putFile($request->type, $file);
+        }catch (\Exception $e){
+            return error($e->getMessage());
+        }
+        return success('上传成功', [
+            'url' => '/files/'.$path,
             'base_url' => config('app.url')
         ]);
     }
 
     public function cloud(Request $request)
     {
-        $arr = [];
-        $error = [];
-        foreach ($request->file('files') as $k=>$v) {
-            if ($v->isValid()) {
-                $path = Storage::disk('oss')->put($request->type, $v);
-                $arr[] = '/' . $path;
-            }else{
-                $error[] = $k;
-            }
+        $file = $request->file('file');
+
+        if (!$file->isValid()){
+            return error('上传内容不是一个文件');
         }
 
-        return $this->success('上传成功', [
-            'urls' => $arr,
-            'errors' => $error,
+        try {
+            $path = Storage::disk('oss')->put($request->type, $file);
+        }catch (\Exception $e){
+            return error($e->getMessage());
+        }
+        return success('上传成功', [
+            'url' => '/'.$path,
             'base_url' => config('filesystems.disks.oss.url')
         ]);
     }
