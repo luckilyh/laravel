@@ -43,7 +43,7 @@ class UploadController extends Controller
         }
         return success('上传成功', [
             'url' => '/'.$path,
-            'base_url' => !empty(config('filesystems.disks.oss.url')) ? config('filesystems.disks.oss.url') : config('filesystems.disks.oss.endpoint')
+            'base_url' => config('filesystems.disks.oss.url')
         ]);
     }
 
