@@ -13,11 +13,7 @@ use Illuminate\Validation\ValidationException;
 class TestController extends Controller
 {
     public function test(Request $request){
-        return apiOutPut(123,'',[]);
-        $verifyData = $this->verify($request,[
-            'title' => 'required'
-        ],[],[]);
-
-        dd(123432);
+        $user = User::first();
+        return apiOutPut(110,'查询成功',$user);
     }
 }
