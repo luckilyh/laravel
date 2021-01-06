@@ -76,17 +76,20 @@
     APP_ENV=local
     #正式环境
     APP_ENV=production
-    ```
-
+    
+  #打印运行的sql语句
+    QUERY_LOG=true
+  ```
+    
     **注意**：清理缓存 `php artisan config:cache`
-
+    
     在路由中有 `短信验证码` 和 `图片+短信验证码` 两种。
 
 - 常用自定义方法
 
   `app\Helpers\function.php`
 
-## 新增接口
+## 新增
 
 - 采用单设备登录(JWT设置过期时间为永不过期)
 
