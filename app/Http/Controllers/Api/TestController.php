@@ -10,6 +10,6 @@ class TestController extends Controller
 {
     public function test(){
         $user = User::first();
-        return Auth::guard('api')->login($user);
+        return $this->apiOutPut(110,'查询成功',$user);
     }
 }

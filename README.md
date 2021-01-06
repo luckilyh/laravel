@@ -77,11 +77,11 @@
     #正式环境
     APP_ENV=production
     
-  #打印运行的sql语句
+    #打印运行的sql语句
     QUERY_LOG=true
-  ```
+    ```
   
-    **注意**：清理缓存 `php artisan config:cache`
+  **注意**：清理缓存 `php artisan config:cache`
 
 
 
