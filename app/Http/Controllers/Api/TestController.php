@@ -13,7 +13,14 @@ use Illuminate\Validation\ValidationException;
 class TestController extends Controller
 {
     public function test(Request $request){
-        $user = User::first();
-        return apiOutPut(110,'查询成功',$user);
+        $verify = verify($request,[
+            'phone' => 'required',
+        ],[],[]);
+
+        if (!is_array($verify)){
+            return $verify;
+        }
+
+        dd($verify);
     }
 }

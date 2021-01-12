@@ -65,6 +65,8 @@
     throw new \Exception('这是一个错误');//自定义错误信息
     ```
 
+  - 在 `app\Http\Controllers\Api\TestController` 中写有关于数据验证的示例 
+
 - artisan
 
   - 输入用户 id，查询 id 对应的用户，然后为该用户生成一个有效期为 1 年的 `token`。
