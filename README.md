@@ -56,10 +56,14 @@
 
   - 默认 Accept 头返回 Json 格式
 
-- 验证器
+- 错误处理
 
-  - 重写了验证器默认返回格式 `app\Http\Requests\Api\FormRequest@failedValidation`
-  - 系统错误处理汉化 `app\Http\Exception\Handler`
+  - `app\ExceptionsHandler.php` 里面定义了一些错误信息
+
+    ```php
+    User::findOrFail(1);//当未查询到结果(null),直接调用提示错误信息
+    throw new \Exception('这是一个错误');//自定义错误信息
+    ```
 
 - artisan
 

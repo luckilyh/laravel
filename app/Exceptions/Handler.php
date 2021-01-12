@@ -2,8 +2,13 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class Handler extends ExceptionHandler
 {
@@ -54,15 +59,31 @@ class Handler extends ExceptionHandler
             return response('抱歉，访问页面不存在！', 404);
         }
 
-        if ($exception->getMessage() == 'The token has been blacklisted'){
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json([
+                'code' => 500,
+                'msg' => $exception->getMessage(),
+                'data' => [],
+            ]);
+        }
+
+        if ($exception instanceof \Exception) {
+            return response()->json([
+                'code' => 500,
+                'msg' => $exception->getMessage(),
+                'data' => [],
+            ]);
+        }
+
+        if ($exception instanceof TokenBlacklistedException) {
             return response('抱歉，该token已被拉入黑名单！', 403);
         }
 
-        if ($exception->getMessage() == 'Token has expired and can no longer be refreshed'){
+        if ($exception instanceof TokenExpiredException) {
             return response('令牌已过期，不能再刷新！', 423);
         }
 
-        if ($exception->getMessage() == 'Too Many Attempts.'){
+        if ($exception instanceof ThrottleRequestsException) {
             return response('请求太频繁，请稍后再试！', 429);
         }
 

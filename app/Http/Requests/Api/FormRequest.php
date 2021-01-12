@@ -12,13 +12,4 @@ class FormRequest extends BaseFormRequest
     {
         return true;
     }
-
-    /**
-     * 重写验证错误输出信息
-     * @param Validator $validator
-     */
-    protected function failedValidation(Validator $validator) {
-        $error= $validator->errors()->all();
-        throw new HttpResponseException(response()->json(['code'=>404,'msg'=>$error[0],'data'=>[]]));
-    }
 }
