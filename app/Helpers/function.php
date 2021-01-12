@@ -35,18 +35,6 @@ function error($msg, $data = [])
 }
 
 /**
- * 异常
- */
-function exception($msg, $data = [])
-{
-    return response()->json([
-        'code' => 500,
-        'msg' => $msg,
-        'data' => $data,
-    ]);
-}
-
-/**
  * @param $request     请求的实例
  * @param $rules       验证的规则
  * @param $messages    自定义rules中的规则信息
