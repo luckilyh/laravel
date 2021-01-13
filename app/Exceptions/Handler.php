@@ -67,14 +67,6 @@ class Handler extends ExceptionHandler
             ]);
         }
 
-        if ($exception instanceof \Exception) {
-            return response()->json([
-                'code' => 500,
-                'msg' => $exception->getMessage(),
-                'data' => [],
-            ]);
-        }
-
         if ($exception instanceof TokenBlacklistedException) {
             return response('抱歉，该token已被拉入黑名单！', 403);
         }
@@ -85,6 +77,14 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof ThrottleRequestsException) {
             return response('请求太频繁，请稍后再试！', 429);
+        }
+
+        if ($exception instanceof \Exception) {
+            return response()->json([
+                'code' => 500,
+                'msg' => $exception->getMessage(),
+                'data' => [],
+            ]);
         }
 
         return parent::render($request, $exception);
