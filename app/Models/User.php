@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Carbon\Carbon;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -21,7 +22,7 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
      */
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'introduction', 'avatar',
-        'weixin_openid', 'weixin_unionid'
+        'weixin_openid', 'weixin_unionid', 'last_login_at', 'last_login_ip', 'register_ip'
     ];
 
     /**
@@ -31,6 +32,8 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
      */
     protected $hidden = [
         'password', 'remember_token',
+        'weixin_openid', 'weixin_unionid',
+        'last_login_at', 'last_login_ip', 'register_ip'
     ];
 
     /**
@@ -40,6 +43,7 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_login_at' => 'datetime',
     ];
 
     public function getJWTIdentifier()
@@ -50,5 +54,22 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        // 监听模型创建事件，在写入数据库之前触发
+        static::creating(function ($model) {
+            $model->register_ip = request()->ip();
+        });
+
+        // 更新token时，更新登录时间与ip
+        static::updating(function ($model) {
+            if (isset($model->getDirty()['token'])){
+                $model->last_login_at = Carbon::now();
+                $model->register_ip = request()->ip();
+            }
+        });
     }
 }
