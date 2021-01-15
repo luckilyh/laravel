@@ -13,14 +13,10 @@ use Illuminate\Validation\ValidationException;
 class TestController extends Controller
 {
     public function test(Request $request){
-        $verify = verify($request,[
+        $data = verify($request,[
             'phone' => 'required',
         ],[],[]);
 
-        if (!is_array($verify)){
-            return $verify;
-        }
-
-        dd($verify);
+        dd($data);
     }
 }

@@ -59,11 +59,22 @@ class Handler extends ExceptionHandler
             return response('抱歉，访问页面不存在！', 404);
         }
 
-        if ($exception instanceof ModelNotFoundException) {
+        if ($exception instanceof \Exception) {
+            // 自定义验证器抛出异常
+            if ($exception->getFile() == app_path('Helpers/function.php')){
+                return response()->json([
+                    'code' => 404,
+                    'msg' => $exception->getMessage(),
+                    'data' => [],
+                ]);
+            }
             return response()->json([
                 'code' => 500,
                 'msg' => $exception->getMessage(),
-                'data' => [],
+                'data' => [
+                    'file' => $exception->getFile(),
+                    'line' => $exception->getLine(),
+                ],
             ]);
         }
 
@@ -77,14 +88,6 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof ThrottleRequestsException) {
             return response('请求太频繁，请稍后再试！', 429);
-        }
-
-        if ($exception instanceof \Exception) {
-            return response()->json([
-                'code' => 500,
-                'msg' => $exception->getMessage(),
-                'data' => [],
-            ]);
         }
 
         return parent::render($request, $exception);

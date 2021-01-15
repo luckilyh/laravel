@@ -46,10 +46,6 @@ function verify($request, $rules, $messages=[], $attributes=[]){
         return $request->validate($rules,$messages,$attributes);
     }catch (\Exception $e){
         $error = $e->errors();
-        return json_encode([
-            'code' => 404,
-            'msg' => reset($error)[0],
-            'data' => [],
-        ]);
+        throw new Exception(reset($error)[0]);
     }
 }
