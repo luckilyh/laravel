@@ -17,7 +17,7 @@ class Model extends BaseModel
     }
 
     /**
-     * 日期序列话
+     * 日期序列化
      */
     protected function serializeDate(\DateTimeInterface $date)
     {

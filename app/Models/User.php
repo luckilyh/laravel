@@ -36,14 +36,12 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
+     * 日期序列化
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'last_login_at' => 'datetime',
-    ];
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format($this->dateFormat ?: 'Y-m-d H:i:s');
+    }
 
     public function getJWTIdentifier()
     {

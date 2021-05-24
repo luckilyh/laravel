@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Resources\User as UserResource;
 
 class UsersController extends Controller
 {
@@ -34,18 +35,13 @@ class UsersController extends Controller
         // 清除验证码缓存
         \Cache::forget($request->verification_key);
 
-        return success('注册成功',$user);
+        return success('注册成功',new UserResource($user));
     }
 
     public function me(Request $request)
     {
         $user = auth()->user();
-        unset($user['token']);
-        unset($user['last_login_at']);
-        unset($user['last_login_ip']);
-        unset($user['register_ip']);
-        unset($user['created_at']);
-        unset($user['updated_at']);
-        return success('查询成功',auth()->user());
+
+        return success('查询成功',new UserResource($user));
     }
 }
