@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::any('validation_email', 'Api\VerificationCodesController@storeEmail');//验证邮箱回调界面

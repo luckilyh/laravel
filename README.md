@@ -1,61 +1,120 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+> 根据laravel框架基础，加装项目常用api。注意：项目交付后，删除此文档
 
-## About Laravel
+## 所用扩展
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- `tymon/jwt-aut` jwt
+- `overtrue/laravel-lang` 语言包
+- `overtrue/easy-sms` 短信
+- `gregwar/captcha` 图片验证码
+- `jacobcyl/ali-oss-storage` 阿里云oss
+- `overtrue/laravel-wechat` easywechat
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## 起步
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- 安装扩展
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+  ```shell
+  composer install
+  ```
 
-## Laravel Sponsors
+- 复制.env.example
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+  ```shell
+  cp .env.example .env
+  ```
 
-### Premium Partners
+- 更新密钥
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+  ```shell
+  php artisan key:generate
+  ```
 
-## Contributing
+- 更新Token 签名
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+  ```shell
+  php artisan jwt:secret
+  ```
 
-## Code of Conduct
+- 根据需求更改.env配置
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- 数据迁移
 
-## Security Vulnerabilities
+  ```shell
+  php artisan migrate --seed
+  ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 变动
+
+- 错误处理
+
+  - `app\Exceptions\Handler.php` 里面定义了一些错误信息
+
+    ```php
+    User::findOrFail(1);//当未查询到结果(null),直接调用提示错误信息
+    throw new \Exception('这是一个错误');//自定义错误信息
+    ```
+
+  - 在 `app\Http\Controllers\Api\TestController` 中写有关于数据验证的示例 
+
+- artisan
+
+  - 输入用户 id，查询 id 对应的用户，然后为该用户生成一个有效期为 1 年的 `token`。
+
+    ```shell
+    php artisan generate-token
+    ```
+
+- .env
+
+  - ```shell
+    #开发环境 验证码:1234 在路由中有 `短信验证码` 和 `图片+短信验证码` 两种。
+    APP_ENV=local
+    #正式环境
+    APP_ENV=production
+    
+    #网易邮箱配置
+    MAIL_MAILER=smtp
+    MAIL_HOST=smtp.163.com
+    MAIL_PORT=465
+    MAIL_USERNAME=13460773851@163.com
+    MAIL_PASSWORD=JLNUQXQSUWNBCIGA
+    MAIL_ENCRYPTION=ssl
+    MAIL_FROM_ADDRESS=13460773851@163.com
+    MAIL_FROM_NAME="${APP_NAME}"
+    ```
+    
+    **注意**：清理缓存 `php artisan config:cache`
+
+- 常用自定义方法
+
+  `app\Helpers\function.php`
+
+- 采用单设备登录(JWT设置过期时间为永不过期)
+
+  **调整为过期**
+
+  1. 修改 `.env` 文件 中 `JWT_TTL` 与 `JWT_REFRESH_TTL` 的值
+  2. 修改 `config/jwt.php` 配置文件中 `required_claims.exp` 注释打开
+
+  <font style="color:red">注：jwt只是用于用户登录令牌认证，众所周知http是采用的明文通讯，所以很容易就能够被窃取到http通讯报文。所以可以做 1. 通信层加密，比如采用https。2 . 代码层面安全检测，比如ip地址发生变化，MAC地址发生变化等等，可以要求重新登录。</font>
+
+- 采用阿里云短信、可配置阿里云oss
+
+- 节流限制
+
+- 邮箱验证
+
+- easywechat小程序登录(未写绑定openid)
+
+- 上传模块(本地/云端)
+
+- 轮播图、关于我们、杂项(各类大型数据管理)
+
+- 自定义每页显示条数 `per_page`
+

@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'PRC',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'zh_CN',
 
     /*
     |--------------------------------------------------------------------------
@@ -175,6 +175,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Providers\EasySmsServiceProvider::class,//短信
+        Jacobcyl\AliOSS\AliOssServiceProvider::class,//阿里oss
+        Overtrue\LaravelWeChat\ServiceProvider::class,//easywechat
     ],
 
     /*
@@ -226,7 +229,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,//easywechat
     ],
 
 ];

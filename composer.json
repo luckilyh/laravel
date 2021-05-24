@@ -11,9 +11,15 @@
         "php": "^7.2.5|^8.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "gregwar/captcha": "^1.1",
         "guzzlehttp/guzzle": "^6.3.1|^7.0.1",
+        "jacobcyl/ali-oss-storage": "^2.1",
         "laravel/framework": "^7.29",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "overtrue/easy-sms": "^1.3",
+        "overtrue/laravel-lang": "~5.0",
+        "overtrue/laravel-wechat": "~5",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -39,6 +45,9 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Helpers/function.php"
         ]
     },
     "autoload-dev": {
