@@ -18,7 +18,7 @@ class CreateFragmentsTable extends Migration
             $table->increments('id');
             $table->string('title')->comment('标题');
             $table->longText('content')->comment('内容');
-            $table->string('type')->nullable()->comment('类型: rich_text 富文本; text 文本; json 数组字符串; image 图片;');
+            $table->string('type')->nullable()->comment('类型: rich_text 富文本; text 文本; json 数组字符串; image 图片; file 文件; map 地图;');
         });
         DB::statement("ALTER TABLE `fragments` comment '碎片表'");
     }
