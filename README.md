@@ -46,8 +46,17 @@
   ```shell
   php artisan migrate --seed
   ```
+  
+- 安装 dcat-admin 后台管理
 
+  ```shell
+  composer require dcat/laravel-admin:"2.*" -vvv
+  php artisan admin:publish
+  php artisan admin:install
+  php artisan db:seed --class=AdminSeeder
+  ```
 
+  
 
 ## 变动
 
@@ -114,7 +123,7 @@
 
 - 上传模块(本地/云端)
 
-- 轮播图、关于我们、杂项(各类大型数据管理)
+- 轮播图、杂项(各类大型数据管理)
 
 - 自定义每页显示条数 `per_page`
 
