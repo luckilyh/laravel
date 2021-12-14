@@ -25,12 +25,6 @@ Route::prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
     // 轮播图
     Route::get('banner', 'IndexController@banner')
         ->name('banner');
-    // 系统设置列表
-    Route::get('system_setting_list', 'PersonalController@systemSettingList')
-        ->name('system_setting.list');
-    // 系统设置详情
-    Route::get('system_setting_info', 'PersonalController@systemSettingInfo')
-        ->name('system_setting.info');
     // 碎片详情
     Route::get('fragment', 'PersonalController@fragment')
         ->name('fragment');
