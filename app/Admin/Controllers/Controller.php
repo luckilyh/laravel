@@ -39,4 +39,36 @@ class Controller
             }
         });
     }
+
+    /**
+     * 在正式环境下禁止用户删除/添加
+     * @param $module
+     * @param $type
+     */
+    public static function forbidAddOrDelete($module,$type)
+    {
+        if (config('app.env') == 'production') {
+            switch ($type) {
+                case 'grid':
+                    // 禁用删除按钮
+                    $module->disableDeleteButton();
+                    // 禁用批量删除按钮
+                    $module->disableBatchDelete();
+                    // 禁用行选择器
+                    $module->disableRowSelector();
+                    // 禁用创建按钮
+                    $module->disableCreateButton();
+                    break;
+                case 'show':
+                    $module->panel()
+                        ->tools(function ($tools) {
+                            $tools->disableDelete();
+                        });
+                    break;
+                case 'form':
+                    $module->disableDeleteButton();
+                    break;
+            }
+        }
+    }
 }

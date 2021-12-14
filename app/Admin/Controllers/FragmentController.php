@@ -28,6 +28,8 @@ class FragmentController extends AdminController
                 $filter->like('title');
                 $filter->equal('type')->select($this->options);
             });
+
+            Controller::forbidAddOrDelete($grid,'grid');
         });
     }
 
@@ -91,6 +93,8 @@ class FragmentController extends AdminController
                     $show->html(view('admin/map',['coordinate'=>$coordinate]));
                     break;
             }
+
+            Controller::forbidAddOrDelete($show,'show');
         });
     }
 
@@ -176,6 +180,7 @@ class FragmentController extends AdminController
             });
 
             Controller::takeOutFooter($form);
+            Controller::forbidAddOrDelete($form,'form');
         });
     }
 }
