@@ -12,6 +12,7 @@
 - `overtrue/laravel-wechat` easywechat
 - `propaganistas/laravel-phone` 手机号验证
 - `vinkla/hashids` 哈希数据
+- `awt/apilogger` 查看 api 日志
 
 
 
@@ -80,6 +81,11 @@
     ```shell
     php artisan generate-token
     ```
+    
+  - 清除日志
+
+    ```shell
+    php artisan apilog:clear
 
 - .env
 
@@ -118,6 +124,10 @@
   2. 修改 `config/jwt.php` 配置文件中 `required_claims.exp` 注释打开
 
   <font style="color:red">注：jwt只是用于用户登录令牌认证，众所周知http是采用的明文通讯，所以很容易就能够被窃取到http通讯报文。所以可以做 1. 通信层加密，比如采用https。2 . 代码层面安全检测，比如ip地址发生变化，MAC地址发生变化等等，可以要求重新登录。</font>
+
+- 查看 api 日志
+
+  访问 {{host}}/apilogs
 
 - 采用阿里云短信、可配置阿里云oss
 
