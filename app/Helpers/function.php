@@ -1,4 +1,5 @@
 <?php
+
 /**
  * 自定义状态码输出
  */
@@ -48,4 +49,28 @@ function verify($request, $rules, $messages=[], $attributes=[]){
         $error = $e->errors();
         throw new Exception(reset($error)[0]);
     }
+}
+
+/**
+ * 哈希 id 加密
+ * @param $param
+ * @return mixed
+ */
+function hashid_encode(int $id)
+{
+    return Hashids::encode($id);
+}
+
+/**
+ * 哈希 id 解密
+ * @param $data
+ * @return false
+ */
+function hashid_decode($data)
+{
+    $result = Hashids::decode($data);
+    if (empty($result) || empty($result[0])) {
+        return false;
+    }
+    return $result[0];
 }

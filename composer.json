@@ -20,7 +20,8 @@
         "overtrue/laravel-lang": "~5.0",
         "overtrue/laravel-wechat": "~5",
         "propaganistas/laravel-phone": "^4.2",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "vinkla/hashids": "^8.1"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

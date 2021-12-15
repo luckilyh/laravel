@@ -10,6 +10,8 @@
 - `gregwar/captcha` 图片验证码
 - `jacobcyl/ali-oss-storage` 阿里云oss
 - `overtrue/laravel-wechat` easywechat
+- `propaganistas/laravel-phone` 手机号验证
+- `vinkla/hashids` 哈希数据
 
 
 
@@ -99,6 +101,10 @@
     ```
     
     **注意**：清理缓存 `php artisan config:cache`
+
+- 哈希 id 加密
+
+  <font style="color:red">项目初始化记得修改 `config\hashids.php` 中的key</font>
 
 - 常用自定义方法
 

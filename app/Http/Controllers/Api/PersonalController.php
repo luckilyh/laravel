@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\SystemSetting;
 use App\Models\Fragment;
+use Hashids;
 use Illuminate\Http\Request;
 
 class PersonalController extends Controller
@@ -20,11 +21,16 @@ class PersonalController extends Controller
             return error('id 不能为空');
         }
 
-        if (in_array($request->id, $forbidden_id)) {
+        $id = hashid_decode($request->id);
+        if ($id === false) {
+            return error('哈希 id 解析失败');
+        }
+
+        if (in_array($id, $forbidden_id)) {
             return error('访问错误的项');
         }
 
-        $result = Fragment::find($request->id);
+        $result = Fragment::find($id);
 
         return success('查询成功', $result);
     }

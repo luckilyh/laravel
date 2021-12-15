@@ -15,13 +15,12 @@ class User extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => hashid_encode($this->id),
             'name' => $this->name,
             'account' => $this->account,
             'phone' => $this->phone,
             'email' => $this->email,
             'avatar' => $this->avatar,
-            'account' => $this->account,
             'introduction' => $this->introduction,
         ];
     }
