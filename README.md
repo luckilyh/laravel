@@ -82,7 +82,7 @@
     php artisan generate-token
     ```
     
-  - 清除日志
+  - 清除API日志
 
     ```shell
     php artisan apilog:clear
