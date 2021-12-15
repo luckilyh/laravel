@@ -16,6 +16,7 @@ class VerificationCodesController extends Controller
     public function store(VerificationCodeRequest $request, EasySms $easySms)
     {
         $phone = $request->phone;
+        $phone = ltrim(phone($phone, 'CN', 'E164'), '+86');//过滤手机号 +86
 
         if (!app()->environment('production')) {
             $code = '1234';
