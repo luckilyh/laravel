@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\Api\AuthorizationRequest;
 use App\Http\Requests\Api\SocialAuthorizationRequest;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use EasyWeChat\Factory;
 
@@ -115,7 +116,7 @@ class AuthorizationsController extends Controller
      */
     public function changePassword(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $data = verify($request, [
             'old_password' => [
                 'required', 'alpha_dash', 'min:6',
                 function ($attribute, $value, $fail) {
@@ -130,14 +131,11 @@ class AuthorizationsController extends Controller
             'new_password' => '新密码',
         ]);
 
-        if ($validator->fails()) {
-            return error($validator->errors()->first());
-        }
 
-        auth()->user()->password = Hash::make($request->new_password);
+        auth()->user()->password = Hash::make($data['new_password']);
         $result = auth()->user()->save();
 
-        if ($request) {
+        if ($result) {
             return success('修改成功', $result);
         } else {
             return error('修改失败');
@@ -151,7 +149,7 @@ class AuthorizationsController extends Controller
      */
     public function forgetPassword(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $data = verify($request, [
             'password' => 'required|alpha_dash|min:6',
             'verification_key' => 'required|string',
             'verification_code' => 'required|string',
@@ -160,23 +158,19 @@ class AuthorizationsController extends Controller
             'verification_code' => '短信验证码',
         ]);
 
-        if ($validator->fails()) {
-            return error($validator->errors()->first());
-        }
-
-        $verifyData = \Cache::get($request->verification_key);
+        $verifyData = \Cache::get($data['verification_key']);
 
         if (!$verifyData) {
             return error('验证码已失效');
         }
 
-        if (!hash_equals($verifyData['code'], $request->verification_code)) {
+        if (!hash_equals($verifyData['code'], $data['verification_code'])) {
             return error('验证码错误');
         }
 
         $user = User::where('phone', $verifyData['phone'])->first();
 
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make($data['password']);
         $result = $user->save();
 
         if ($result) {
