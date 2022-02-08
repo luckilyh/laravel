@@ -5,6 +5,7 @@ use Dcat\Admin\Grid;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid\Filter;
 use Dcat\Admin\Show;
+use Dcat\Admin\Form\Field\Editor;
 
 /**
  * Dcat-admin - admin builder based on Laravel.
@@ -24,3 +25,9 @@ use Dcat\Admin\Show;
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
+
+
+Editor::resolving(function (Editor $editor) {
+    // 设置编辑器图片默认上传到七牛云
+    $editor->disk('editor');
+});
