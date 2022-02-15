@@ -110,7 +110,11 @@ class UserController extends AdminController
             $form->display('updated_at');
 
             $form->saving(function (Form $form){
-                $form->password = Hash::make($form->password);
+                if ($form->password) {
+                    $form->input('password', Hash::make($form->password));
+                }else{
+                    $form->deleteInput('password');
+                }
             });
 
             Controller::saveFile($form,'avatar');
