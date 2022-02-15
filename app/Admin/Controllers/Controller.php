@@ -47,7 +47,7 @@ class Controller
      */
     public static function forbidAddOrDelete($module,$type)
     {
-        if (config('app.env') == 'production') {
+        if (!config('app.debug')) {
             switch ($type) {
                 case 'grid':
                     // 禁用删除按钮
