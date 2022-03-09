@@ -107,7 +107,7 @@ class FragmentController extends AdminController
     {
         return Form::make(new Fragment(), function (Form $form) {
             $form->display('id');
-            $form->text('title')->required();
+            $form->text('title')->required()->disable(!config('app.debug'));
 
             $type = $form->model()->type;
             $form->model()->$type = $form->model()->content;
@@ -141,7 +141,7 @@ class FragmentController extends AdminController
                     $form->map('lat','lng', '内容');
                 })
                 ->options($this->options)
-                ->default('rich_text');
+                ->default('rich_text')->disable(!config('app.debug'));
             $form->hidden('content');
 
             $form->saving(function (Form $form) use ($type) {
