@@ -145,8 +145,8 @@ class FragmentController extends AdminController
             $form->hidden('content');
 
             $form->saving(function (Form $form) use ($type) {
-                $type = $form->type;
                 $form->content = $form->$type;
+                $form->type = $type;
 
                 if ($type == 'image' && $form->model()->content != $form->image) {
                     $form->content = '/files/' . $form->content;
