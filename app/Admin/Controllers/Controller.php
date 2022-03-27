@@ -33,11 +33,16 @@ class Controller
      */
     public static function saveFile($form, $field)
     {
-        $form->saving(function (Form $form) use ($field) {
-            if ($form->model()->$field != $form->$field) {
-                $form->$field = '/files/' . $form->$field;
+        if (!is_array($field)) {
+            $field = [$field];
+        }
+
+        foreach ($field as $index => $item) {
+            preg_match('/^images.*/', $form->$item, $match);
+            if ($match) {
+                $form->$item = '/files/' . $form->$item;
             }
-        });
+        }
     }
 
     /**
