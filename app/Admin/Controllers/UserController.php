@@ -99,7 +99,7 @@ class UserController extends AdminController
                 }
             });
             $form->datetime('email_verified_at');
-            $form->password('password')->required();
+            $form->password('password');
             $form->image('avatar')->autoUpload()->removable(false)->uniqueName();
             $form->text('introduction');
             $form->display('last_login_at');
