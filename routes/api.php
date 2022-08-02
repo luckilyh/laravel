@@ -18,7 +18,7 @@ Route::get('login', 'Api\AuthorizationsController@login')->name('login');
 
 $middleware = [];
 if (config('app.env') == 'local') {
-    $middleware[] = 'apilogger';
+//     $middleware[] = 'apilogger';
 }
 
 Route::middleware($middleware)->prefix('v1')->namespace('Api')->name('api.v1.')->group(function () {
