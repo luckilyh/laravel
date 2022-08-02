@@ -21,7 +21,10 @@ class FragmentController extends AdminController
         return Grid::make(new Fragment(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('title');
-            $grid->column('type');
+            $options = $this->options;
+            $grid->column('type')->display(function () use ($options) {
+                return $options[$this->type];
+            });
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
@@ -45,7 +48,10 @@ class FragmentController extends AdminController
         return Show::make($id, new Fragment(), function (Show $show) {
             $show->field('id');
             $show->field('title');
-            $show->field('type');
+            $options = $this->options;
+            $show->field('type')->unescape()->as(function () use ($options) {
+                return $options[$this->type];
+            });
             switch ($show->model()->type) {
                 case 'rich_text':
                     $show->field('content')->unescape()->as(function ($content) {
@@ -109,8 +115,10 @@ class FragmentController extends AdminController
             $form->display('id');
             $form->text('title')->required()->disable(!config('app.debug'));
 
-            $type = $form->model()->type;
-            $form->model()->$type = $form->model()->content;
+            $type = $form->input('type');
+            $modelType = $form->model()->type;
+            $form->model()->$modelType = $form->model()->content;
+
             if ($type == 'map') {
                 $coordinate = json_decode($form->model()->content, true);
                 $form->model()->lat = $coordinate['lat'];
