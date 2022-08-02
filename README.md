@@ -12,7 +12,7 @@
 - `overtrue/laravel-wechat` easywechat
 - `propaganistas/laravel-phone` 手机号验证
 - `vinkla/hashids` 哈希数据
-- `awt/apilogger` 查看 api 日志<font style="color:red">废弃</font>
+- `awt/apilogger` 查看 api 日志 <font style="color:red">(废弃)</font>
 
 
 
